@@ -1,14 +1,17 @@
 ---
 name: checar-saida
-description: Valida os arquivos JSON em out/ antes de o agente parar.
+description: Confere todos os JSONs gerados pelo agente para a task reunião em proposta, valida campos, tipos, ordem, integridade e arquivos faltantes. Use depois de gerar out/<caso>.json e antes de finalizar.
 ---
 
-# Checar a saída
+# Validação de saída
 
-Rode `node .opencode/skills/checar-saida/check.mjs`.
+No diretório do workspace, execute:
 
-- Ele confere que existe pelo menos um `out/*.json` e que cada um é JSON válido.
-- Ele confere que existe um `out/<caso>.json` para cada pasta em `casos/`.
-- Saída diferente de 0 = corrija e rode de novo.
+```bash
+node .opencode/skills/checar-saida/check.mjs
+npx vitest run tests/public
+```
 
-Adapte o script para checar o formato do seu problema (campos obrigatórios, tipos).
+Este validador é **independente** da geração: checa presença de um JSON por pasta em `casos/`, esquema e invariantes de contagem, ordenação e vencimentos. A avaliação oculta cobra os valores exatos; não confunda validação de formato com acerto semântico.
+
+Se encontrar erros, compare com a tabela, transcrição e README do caso. Edite somente os arquivos em `out/` durante a execução do agente. Não altere fontes, testes ou scripts da skill.
